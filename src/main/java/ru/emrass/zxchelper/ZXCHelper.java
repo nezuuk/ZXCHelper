@@ -28,7 +28,7 @@ public class ZXCHelper implements ClientModInitializer {
         instance = this;
         webService.start();
         new Random();
-        CommandRegistry.registerCommands(new SendCommand(), new ZHelpCommand(), new ZAddFriendCommand(), new ZRemoveFriendCommand(), new ZFriendsCommand());
+        CommandRegistry.registerCommands(new SendCommand(), new ZHelpCommand(), new ZAddFriendCommand(), new ZRemoveFriendCommand(), new ZFriendsCommand(), new ZUpdateCommand());
         FeatureRegistry.registerFeatures(new AutoClicker(), glowHighlightFeature);
 
 
