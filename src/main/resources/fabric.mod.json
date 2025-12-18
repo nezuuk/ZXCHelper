@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "id": "zxchelper",
+  "version": "1.0.0",
+  "name": "ZXCHelper",
+  "description": "ZXCHelper client mod",
+  "authors": ["emrass"],
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "ru.emrass.zxchelper.ZXCHelper"
+    ]
+  },
+  "mixins": [
+    "zxchelper.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.15.11",
+    "minecraft": "1.20.1",
+    "fabric-api": "*",
+    "java": ">=17"
+  }
+}
