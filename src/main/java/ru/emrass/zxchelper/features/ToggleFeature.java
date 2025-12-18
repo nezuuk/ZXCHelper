@@ -3,14 +3,6 @@ package ru.emrass.zxchelper.features;
 import lombok.Getter;
 import net.minecraft.client.MinecraftClient;
 
-/**
- * Базовый класс для ВКЛ/ВЫКЛ фич с биндом.
- * Сам:
- *  - хранит enabled;
- *  - по нажатию бинда переключает enabled и выводит статус;
- *  - вызывает onEnabled()/onDisabled();
- *  - на каждом тике, если включено, вызывает onEnabledTick().
- */
 public abstract class ToggleFeature extends BaseFeature {
 
     @Getter
@@ -20,23 +12,16 @@ public abstract class ToggleFeature extends BaseFeature {
         super(id, displayName, description, defaultKeyCode);
     }
 
-    /** Нажали бинд — просто переключаем. */
     @Override
     public final void onKeyPressed(MinecraftClient client) {
         toggle(client);
     }
 
-    /** Переключить состояние (с выводом статуса). */
     public final void toggle(MinecraftClient client) {
         setEnabled(!enabled, client, true);
     }
 
-    /**
-     * Программно включить/выключить фичу.
-     * @param value       новое значение enabled
-     * @param client      клиент
-     * @param showStatus  показывать ли сообщение в чате
-     */
+
     public final void setEnabled(boolean value, MinecraftClient client, boolean showStatus) {
         if (this.enabled == value) return;
         this.enabled = value;
@@ -59,15 +44,12 @@ public abstract class ToggleFeature extends BaseFeature {
         }
     }
 
-    /** Один раз при включении. */
     protected void onEnabled(MinecraftClient client) {
     }
 
-    /** Один раз при выключении. */
     protected void onDisabled(MinecraftClient client) {
     }
 
-    /** Каждый тик, пока фича включена. */
     protected void onEnabledTick(MinecraftClient client) {
     }
 }

@@ -13,20 +13,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Базовый класс для клиентских команд ZXCHelper.
- *
- * Конструктор:
- *   name       — имя команды без '/', например "send"
- *   description — описание (используется в /zhelp)
- *   argCount   — сколько аргументов у команды
- *   greedyLast — если true, последний аргумент = greedyString (захватывает весь остаток строки)
- *
- * В наследнике:
- *   - вызвать super(...) в конструкторе;
- *   - реализовать execute(src, args);
- *   - опционально переопределить complete(src, argsSoFar) для подсказок по аргументам.
- */
 @Getter
 public abstract class BaseClientCommand {
 
@@ -56,7 +42,6 @@ public abstract class BaseClientCommand {
         this.greedyLast = greedyLast;
     }
 
-    /** Регистрирует команду в Brigadier. Вызывается из CommandRegistry. */
     public void registerBrigadier(CommandDispatcher<FabricClientCommandSource> dispatcher) {
         LiteralArgumentBuilder<FabricClientCommandSource> root =
                 ClientCommandManager.literal(name);
@@ -103,15 +88,12 @@ public abstract class BaseClientCommand {
         dispatcher.register(root);
     }
 
-    /** Логика команды. */
     protected abstract int execute(FabricClientCommandSource src, List<String> args);
 
-    /** Подсказки по аргументам (не по имени команды). По умолчанию — нет подсказок. */
     protected List<String> complete(FabricClientCommandSource src, List<String> argsSoFar) {
         return Collections.emptyList();
     }
 
-    // ===== разбор строки на аргументы =====
 
     private List<String> collectArgs(String input) {
         String noSlash = input.startsWith("/") ? input.substring(1) : input;

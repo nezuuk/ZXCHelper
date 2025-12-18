@@ -5,8 +5,6 @@ import com.google.gson.GsonBuilder;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.entity.player.PlayerEntity;
 import ru.emrass.zxchelper.ZXCHelper;
 
 import java.io.IOException;
@@ -66,7 +64,6 @@ public final class ConfigManager {
         }
     }
 
-    // ====== friend list API ======
 
     public static boolean isFriend(String name) {
         if (name == null) return false;
@@ -76,22 +73,17 @@ public final class ConfigManager {
     public static boolean addFriend(String name) {
         if (name == null || name.isBlank()) return false;
         boolean added = config.getFriends().add(name.toLowerCase());
-        if (added) {
-            save();
-//            PlayerEntity player = MinecraftClient.getInstance().player;
-//            player.getScoreboard().addPlayerToTeam(name,player.getScoreboard().getTeam("ZXCHelper_FRIENDS"));
-        }
+        if (added) save();
+
+
         return added;
     }
 
     public static boolean removeFriend(String name) {
         if (name == null || name.isBlank()) return false;
         boolean removed = config.getFriends().remove(name.toLowerCase());
-        if (removed) {
-            save();
-//            PlayerEntity player = MinecraftClient.getInstance().player;
-//            player.getScoreboard().addPlayerToTeam(name,player.getScoreboard().getTeam("ZXCHelper_FRIENDS"));
-        }
+        if (removed) save();
+
         return removed;
     }
 

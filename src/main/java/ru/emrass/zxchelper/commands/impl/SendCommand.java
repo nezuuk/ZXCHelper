@@ -22,7 +22,6 @@ public class SendCommand extends BaseClientCommand {
 
     @Override
     protected List<String> complete(FabricClientCommandSource src, List<String> argsSoFar) {
-        // подсказки по тексту по желанию
         return List.of("hello everyone", "gg", "wp");
     }
 }

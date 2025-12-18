@@ -19,7 +19,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ZUpdateCommand extends BaseClientCommand {
 
-    // СЮДА ПОДСТАВЬ СВОЙ URL С JAR МОДА
     private static final String UPDATE_URL =
             "https://github.com/nezuuk/ZXCHelper/releases/latest/download/ZXCHelper.jar";
 
@@ -53,7 +52,6 @@ public class ZUpdateCommand extends BaseClientCommand {
     }
 
     private void downloadUpdate() {
-        MinecraftClient mc = MinecraftClient.getInstance();
 
         try {
             URL url = new URL(UPDATE_URL);
@@ -93,7 +91,8 @@ public class ZUpdateCommand extends BaseClientCommand {
         mc.execute(() -> {
             if (mc.player != null) {
                 Text prefix = Text.literal(ZXCHelper.CHAT_PREFIX).formatted(Formatting.GOLD);
-                mc.player.sendMessage(prefix.copy().append(Text.literal(msg)));
+                Text lastmsg = Text.literal(msg).formatted(Formatting.GRAY);
+                mc.player.sendMessage(prefix.copy().append(lastmsg.copy()));
             }
         });
     }

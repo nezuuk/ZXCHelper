@@ -32,7 +32,6 @@ public class ZRemoveFriendCommand extends BaseClientCommand {
     }
     @Override
     protected List<String> complete(FabricClientCommandSource src, List<String> argsSoFar) {
-        // подсказки по тексту по желанию
         return ConfigManager.getFriends().stream().toList();
     }
 }

@@ -1,7 +1,6 @@
 package ru.emrass.zxchelper.features.impl;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
@@ -15,7 +14,7 @@ import ru.emrass.zxchelper.features.ToggleFeature;
 public class AutoClicker extends ToggleFeature {
 
     private int tickCounter = 0;
-    private final int intervalTicks = 4; // раз в 4 тика
+    private final int intervalTicks = 1;
 
     public AutoClicker() {
         super("autoclicker", "Авто-Кликер",
@@ -55,7 +54,6 @@ public class AutoClicker extends ToggleFeature {
                 }
             }
             case MISS -> {
-                // нет цели — просто Swing
                 client.player.swingHand(Hand.MAIN_HAND);
             }
         }

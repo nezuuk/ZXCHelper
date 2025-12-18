@@ -13,7 +13,6 @@ import java.util.Random;
 
 @Slf4j
 public class ZXCHelper implements ClientModInitializer {
-    public static final String MOD_ID = "zxchelper";
     public static final String MOD_NAME = "ZXCHelper";
     public static final String CHAT_PREFIX = "[✌] ";
     @Getter
@@ -22,6 +21,7 @@ public class ZXCHelper implements ClientModInitializer {
     public static ZXCHelper instance;
     @Getter
     private final GlowHighlightFeature glowHighlightFeature = new GlowHighlightFeature();
+
     @Override
     public void onInitializeClient() {
         log.info("init: {}", MOD_NAME);
@@ -33,7 +33,6 @@ public class ZXCHelper implements ClientModInitializer {
 
 
     }
-
 
 
 }

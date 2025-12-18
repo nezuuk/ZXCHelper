@@ -13,17 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Реестр фич ZXCHelper + бинды.
- *
- * Использование в ZXCHelper:
- *
- *   FeatureRegistry.init();
- *   FeatureRegistry.registerFeatures(
- *       new AutoClickerFeature(),
- *       new TestKeyFeature()
- *   );
- */
+
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class FeatureRegistry {
@@ -38,21 +28,17 @@ public final class FeatureRegistry {
         if (initialized) return;
         initialized = true;
 
-        // регистрируем уже добавленные фичи
         registerKeyBindingsForExistingFeatures();
         callOnRegisteredForExisting();
 
-        // общий тик-хендлер
         ClientTickEvents.END_CLIENT_TICK.register(FeatureRegistry::onClientTick);
     }
 
-    /** Регистрация сразу нескольких фич через запятую. */
     public static void registerFeatures(BaseFeature... feats) {
         init();
         features.addAll(Arrays.asList(feats));
 
         if (initialized) {
-            // если init() уже был – сразу же регистрируем бинды и вызываем onRegistered
             for (BaseFeature f : feats) {
                 registerKeyBinding(f);
                 f.onRegistered();
@@ -89,14 +75,12 @@ public final class FeatureRegistry {
         if (client == null) return;
 
         for (BaseFeature feature : features) {
-            // обработка биндов
             if (feature.isKeybound() && feature.getKeyBinding() != null) {
                 while (feature.getKeyBinding().wasPressed()) {
                     feature.onKeyPressed(client);
                 }
             }
 
-            // пассивный тик
             feature.onClientTick(client);
         }
     }

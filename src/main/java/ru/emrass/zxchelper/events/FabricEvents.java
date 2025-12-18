@@ -17,14 +17,11 @@ import ru.emrass.zxchelper.ZXCHelper;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-/**
- * Утилита для удобной регистрации часто используемых Fabric-ивентов под 1.20.1.
- */
+
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class FabricEvents {
 
-    // ====== ТИК КЛИЕНТА ======
 
     public static void onClientTick(Consumer<MinecraftClient> listener) {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
@@ -36,7 +33,6 @@ public final class FabricEvents {
         });
     }
 
-    // ====== ПОДКЛЮЧЕНИЕ / ОТКЛЮЧЕНИЕ ОТ СЕРВЕРА ======
 
     public static void onPlayJoin(BiConsumer<ClientPlayNetworkHandler, MinecraftClient> listener) {
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
@@ -58,14 +54,7 @@ public final class FabricEvents {
         });
     }
 
-    // ====== ПРИЁМ СООБЩЕНИЙ ЧАТА ОТ СЕРВЕРА ======
 
-    /**
-     * Все входящие сообщения от сервера:
-     * - GAME(overlay=false)  -> GAME
-     * - GAME(overlay=true)   -> HUD
-     * - CHAT                 -> CHAT
-     */
     public static void onChatReceived(BiConsumer<ChatChannel, Text> listener) {
         ClientReceiveMessageEvents.GAME.register((message, overlay) -> {
             try {
@@ -76,7 +65,6 @@ public final class FabricEvents {
             }
         });
 
-        // Чат игроков (подписанные сообщения)
         ClientReceiveMessageEvents.CHAT.register(
                 (message, signedMessage, sender, params, receptionTimestamp) -> {
                     try {
@@ -88,9 +76,7 @@ public final class FabricEvents {
         );
     }
 
-    // ====== ОТПРАВКА СООБЩЕНИЙ / КОМАНД НА СЕРВЕР ======
 
-    /** Игрок отправил обычное чат-сообщение (не команду). */
     public static void onChatSent(Consumer<String> listener) {
         ClientSendMessageEvents.CHAT.register((String message) -> {
             try {
@@ -101,7 +87,6 @@ public final class FabricEvents {
         });
     }
 
-    /** Игрок отправил команду (строка после '/'). */
     public static void onCommandSent(Consumer<String> listener) {
         ClientSendMessageEvents.COMMAND.register((String command) -> {
             try {
@@ -112,12 +97,6 @@ public final class FabricEvents {
         });
     }
 
-    // ====== HUD / ОВЕРЛЕЙ РЕНДЕР ======
-
-    /**
-     * Аналог RenderGameOverlayEvent: рисует поверх экрана.
-     * DrawContext даёт MatrixStack и методы рисования текста/квадратов/иконок.
-     */
     public static void onHudRender(BiConsumer<DrawContext, Float> listener) {
         HudRenderCallback.EVENT.register((drawContext, tickDelta) -> {
             try {

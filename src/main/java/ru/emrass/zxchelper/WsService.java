@@ -16,34 +16,28 @@ public class WsService {
     @Getter
     private WebSocketClient client;
 
-    /** Сейчас идёт попытка подключения. */
     private volatile boolean connecting = false;
-    /** Разрешено ли вообще пытаться переподключаться. */
     private volatile boolean shouldReconnect = true;
 
-    /** Спец-коды для системных сообщений (подключился/отключился). */
-    private static final String SYS_JOIN  = "\u0000ZXCHelper_JOIN";
+    private static final String SYS_JOIN = "\u0000ZXCHelper_JOIN";
     private static final String SYS_LEAVE = "\u0000ZXCHelper_LEAVE";
 
-    /** Запуск/перезапуск соединения. Вызывается из ZXCHelper.onInitializeClient(). */
     public void start() {
         shouldReconnect = true;
-        connectAsync(0); // без задержки при первом старте
+        connectAsync(0);
     }
 
-    /** Остановить авто‑реконнект и закрыть сокет. */
     public void stop() {
         shouldReconnect = false;
         if (client != null && client.isOpen()) {
-            // отправляем системное "отключился" перед закрытием
             sendSystem(SYS_LEAVE);
             try {
                 client.close();
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+            }
         }
     }
 
-    // ====================== Подключение / реконнект ======================
 
     private void connectAsync(int delaySeconds) {
         if (!shouldReconnect) {
@@ -72,7 +66,6 @@ public class WsService {
                         log.info("[{}] WebSocket connection established", ZXCHelper.MOD_NAME);
                         sendMcChat("Соединение с чатом установлено.");
 
-                        // всем говорим, что этот ник подключился к секретному чату
                         sendSystem(SYS_JOIN);
                     }
 
@@ -88,8 +81,7 @@ public class WsService {
 
                         sendMcChat("Соединение с чатом закрыто: " + reason);
 
-                        // Если удалённая сторона (Render) закрыла соединение —
-                        // пробуем подключиться снова через 5 секунд
+
                         if (remote) {
                             sendMcChat("Попытка переподключения через 5 секунд...");
                             scheduleReconnect(5);
@@ -107,7 +99,6 @@ public class WsService {
                     }
                 };
 
-                // НЕ используем ping/pong-таймаут Java-WebSocket
                 ws.setConnectionLostTimeout(0);
 
                 this.client = ws;
@@ -133,9 +124,7 @@ public class WsService {
         connectAsync(delaySeconds);
     }
 
-    // ====================== Публичный API ======================
 
-    /** Отправка текстового сообщения в скрытый чат. */
     public void sendChat(String text) {
         MinecraftClient mc = MinecraftClient.getInstance();
         String nick = mc.getSession().getUsername();
@@ -148,9 +137,7 @@ public class WsService {
         }
     }
 
-    // ====================== Системные JOIN/LEAVE ======================
 
-    /** Отправка системного события (подключился/отключился) во внешний чат. */
     private void sendSystem(String sysCode) {
         MinecraftClient mc = MinecraftClient.getInstance();
         if (mc.getSession() == null) return;
@@ -162,11 +149,8 @@ public class WsService {
         }
     }
 
-    // ====================== Обработка входящих сообщений ======================
 
-    /** Входящие сообщения от других клиентов мода. */
     private void handleIncoming(String message) {
-        // разбираем "nick|textOrSys"
         String nick;
         String text;
 
@@ -186,15 +170,12 @@ public class WsService {
         mc.execute(() -> {
             if (mc.player == null) return;
 
-            // [✌] (золотой)
             Text prefix = Text.literal(ZXCHelper.CHAT_PREFIX)
                     .formatted(Formatting.GOLD);
 
-            // ник (серый)
             Text nickText = Text.literal(finalNick)
                     .formatted(Formatting.GRAY);
 
-            // ===== системные JOIN / LEAVE =====
             if (SYS_JOIN.equals(finalText)) {
                 Text status = Text.literal(" подключился")
                         .formatted(Formatting.GREEN);
@@ -219,7 +200,6 @@ public class WsService {
                 return;
             }
 
-            // ===== обычное сообщение чата: [✌] ник: текст =====
             Text colon = Text.literal(": ");
             Text msgText = Text.literal(finalText)
                     .formatted(Formatting.WHITE);
@@ -233,9 +213,7 @@ public class WsService {
         });
     }
 
-    // ====================== Служебный вывод в чат ======================
 
-    /** Служебные сообщения мода в чат: [✌] ... */
     private void sendMcChat(String text) {
         MinecraftClient mc = MinecraftClient.getInstance();
         mc.execute(() -> {

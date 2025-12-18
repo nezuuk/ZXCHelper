@@ -20,12 +20,10 @@ public class ZHelpCommand extends BaseClientCommand {
     protected int execute(FabricClientCommandSource src, List<String> args) {
         if (src.getPlayer() == null) return 0;
 
-        // Заголовок
         Text header = Text.literal("✌ Список команд " + ZXCHelper.MOD_NAME + ":")
                 .formatted(Formatting.GOLD);
         src.getPlayer().sendMessage(header);
 
-        // Каждая команда: ✌ /команда - описание
         for (BaseClientCommand cmd : CommandRegistry.getCommands()) {
             Text line = Text.literal("✌ ")
                     .formatted(Formatting.GOLD)
