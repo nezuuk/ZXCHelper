@@ -4,7 +4,6 @@ plugins {
 }
 
 group = project.maven_group
-version = '1.0.0'
 base {
     archivesName = project.archives_base_name
 }
