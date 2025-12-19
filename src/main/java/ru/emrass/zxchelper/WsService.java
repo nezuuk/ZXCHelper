@@ -3,6 +3,7 @@ package ru.emrass.zxchelper;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.entity.boss.BossBar;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import org.java_websocket.client.WebSocketClient;
@@ -201,8 +202,8 @@ public class WsService {
             }
 
             Text colon = Text.literal(": ");
-            Text msgText = Text.literal(finalText)
-                    .formatted(Formatting.WHITE);
+            Text msgText = Text.literal(finalText).formatted(Formatting.YELLOW);
+
 
             Text full = prefix.copy()
                     .append(nickText)

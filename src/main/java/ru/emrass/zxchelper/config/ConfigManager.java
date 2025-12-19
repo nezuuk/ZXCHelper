@@ -90,4 +90,13 @@ public final class ConfigManager {
     public static Set<String> getFriends() {
         return Collections.unmodifiableSet(config.getFriends());
     }
+
+    public static String getInstalledVersion() {
+        return config.getLastInstalledVersion();
+    }
+
+    public static void setInstalledVersion(String tag) {
+        config.setLastInstalledVersion(tag);
+        save();
+    }
 }
