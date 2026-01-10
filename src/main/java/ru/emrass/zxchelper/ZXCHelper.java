@@ -12,8 +12,8 @@ import ru.emrass.zxchelper.commands.CommandRegistry;
 import ru.emrass.zxchelper.commands.impl.*;
 import ru.emrass.zxchelper.features.FeatureRegistry;
 import ru.emrass.zxchelper.features.impl.AutoClicker;
+import ru.emrass.zxchelper.features.impl.ChatWheelFeature;
 import ru.emrass.zxchelper.features.impl.GlowHighlightFeature;
-import ru.emrass.zxchelper.gui.ChatWheelScreen;
 import ru.emrass.zxchelper.net.WsHandlerRegistry;
 import ru.emrass.zxchelper.net.WsService;
 import ru.emrass.zxchelper.net.manager.ErrorManager;
@@ -41,24 +41,8 @@ public class ZXCHelper implements ClientModInitializer {
         CommandRegistry.registerCommands(new SendCommand(), new ZHelpCommand(), new ZAddFriendCommand(),
                 new ZRemoveFriendCommand(), new ZFriendsCommand(), new ZUpdateCommand(),
                 new TestCommand(), new ZRollCommand());
-        FeatureRegistry.registerFeatures(new AutoClicker(), glowHighlightFeature);
+        FeatureRegistry.registerFeatures(new AutoClicker(), glowHighlightFeature, new ChatWheelFeature());
         WsHandlerRegistry.registerHandlers(secretChatManager, new ErrorManager());
-
-        chatWheelKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                "key.zxchelper.wheel", // Ключ перевода
-                InputUtil.Type.KEYSYM,
-                GLFW.GLFW_KEY_V,       // Кнопка V
-                "category.zxchelper"   // Категория в настройках
-        ));
-
-        ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            // Если кнопка нажата, игрока нет в другом меню и мир загружен
-            if (chatWheelKey.isPressed() && client.currentScreen == null && client.player != null) {
-                // Получаем код клавиши, чтобы знать, когда её отпустят
-                int keyCode = KeyBindingHelper.getBoundKeyOf(chatWheelKey).getCode();
-                client.setScreen(new ChatWheelScreen(keyCode));
-            }
-        });
     }
 
 

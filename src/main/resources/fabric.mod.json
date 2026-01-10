@@ -5,6 +5,7 @@
   "name": "ZXCHelper",
   "description": "ZXCHelper client mod",
   "authors": ["emrass"],
+  "icon": "zxc.png",
   "environment": "client",
   "entrypoints": {
     "client": [
