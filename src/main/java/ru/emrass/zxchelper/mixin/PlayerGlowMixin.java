@@ -3,7 +3,6 @@ package ru.emrass.zxchelper.mixin;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.scoreboard.Team;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -13,7 +12,7 @@ import ru.emrass.zxchelper.features.impl.GlowHighlightFeature;
 
 
 @Mixin(Entity.class)
-public abstract class EntityGlowMixin {
+public abstract class PlayerGlowMixin {
 
     @Inject(method = "isGlowing", at = @At("RETURN"), cancellable = true)
     private void zxchelper$forceGlow(CallbackInfoReturnable<Boolean> cir) {
@@ -38,3 +37,4 @@ public abstract class EntityGlowMixin {
         cir.setReturnValue(true);
     }
 }
+

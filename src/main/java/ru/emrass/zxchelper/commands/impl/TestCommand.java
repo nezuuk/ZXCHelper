@@ -14,7 +14,7 @@ public class TestCommand extends BaseClientCommand {
 
     @Override
     protected int execute(FabricClientCommandSource src, List<String> args) {
-        src.getPlayer().sendMessage(Text.literal("Если эта команда появилась знчит обновление прошло успешно!"));
+        src.getPlayer().sendMessage(Text.literal("Очень удобный мод"));
         return 1;
     }
 }

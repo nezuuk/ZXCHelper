@@ -4,12 +4,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-import ru.emrass.zxchelper.ZXCHelper;
 import ru.emrass.zxchelper.commands.BaseClientCommand;
 import ru.emrass.zxchelper.config.ConfigManager;
+import ru.emrass.zxchelper.util.ZXCUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,10 +16,7 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+import java.nio.file.*;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -42,11 +37,11 @@ public class ZUpdateCommand extends BaseClientCommand {
     @Override
     protected int execute(FabricClientCommandSource src, List<String> args) {
         if (!UPDATING.compareAndSet(false, true)) {
-            sendChat("Обновление уже выполняется.");
+            ZXCUtils.send("Обновление уже выполняется.", Formatting.GRAY);
             return 1;
         }
 
-        sendChat("Проверяю наличие обновления...");
+        ZXCUtils.send("Проверяю наличие обновления...", Formatting.GRAY);
 
         new Thread(() -> {
             try {
@@ -65,24 +60,24 @@ public class ZUpdateCommand extends BaseClientCommand {
 
         if (latestTag != null) {
             if (latestTag.equals(currentInstalled)) {
-                sendChat("У тебя уже последняя версия ZXCHelper (" + latestTag + ").");
+                ZXCUtils.send("У тебя уже последняя версия ZXCHelper (" + latestTag + ").", Formatting.GRAY);
                 return;
             } else {
                 if (currentInstalled != null) {
-                    sendChat("Найдена новая версия: " + latestTag + " (установлена " + currentInstalled + ").");
+                    ZXCUtils.send("Найдена новая версия: " + latestTag + " (установлена " + currentInstalled + ").", Formatting.GRAY);
                 } else {
-                    sendChat("Найдена версия: " + latestTag + ".");
+                    ZXCUtils.send("Найдена версия: " + latestTag + ".", Formatting.GRAY);
                 }
-                sendChat("Начинаю загрузку обновления...");
+                ZXCUtils.send("Начинаю загрузку обновления...", Formatting.GRAY);
             }
         } else {
-            sendChat("Не удалось проверить последнюю версию, пробую всё равно скачать обновление.");
+            ZXCUtils.send("Не удалось проверить последнюю версию, пробую скачать обновление.", Formatting.GRAY);
         }
 
         boolean ok = downloadUpdate();
         if (ok && latestTag != null) {
             ConfigManager.setInstalledVersion(latestTag);
-            sendChat("Версия " + latestTag + " отмечена как установленная.");
+            ZXCUtils.send("Версия " + latestTag + " отмечена как установленная.", Formatting.GREEN);
         }
     }
 
@@ -97,7 +92,7 @@ public class ZUpdateCommand extends BaseClientCommand {
 
             int code = conn.getResponseCode();
             if (code != 200) {
-                sendChat("GitHub API вернул HTTP " + code + " при проверке версии.");
+                ZXCUtils.send("GitHub API вернул HTTP " + code + " при проверке версии.", Formatting.RED);
                 return null;
             }
 
@@ -110,8 +105,8 @@ public class ZUpdateCommand extends BaseClientCommand {
                 return root.get("tag_name").getAsString();
             }
         } catch (Exception e) {
-            sendChat("Ошибка при проверке версии: " + e.getClass().getSimpleName()
-                    + " - " + safeMsg(e.getMessage()));
+            ZXCUtils.send("Ошибка при проверке версии: " + e.getClass().getSimpleName()
+                    + " - " + safeMsg(e.getMessage()), Formatting.RED);
             return null;
         }
     }
@@ -126,7 +121,7 @@ public class ZUpdateCommand extends BaseClientCommand {
 
             int code = conn.getResponseCode();
             if (code != 200) {
-                sendChat("Ошибка загрузки: HTTP " + code);
+                ZXCUtils.send("Ошибка загрузки: HTTP " + code, Formatting.RED);
                 return false;
             }
 
@@ -140,7 +135,10 @@ public class ZUpdateCommand extends BaseClientCommand {
             if (currentJar != null) {
                 try {
                     if (Files.isSameFile(currentJar, target)) {
-                        target = modsDir.resolve("zxchelper-update-new.jar");
+                        Path alt = modsDir.resolve("zxchelper-update-new.jar");
+                        ZXCUtils.send("Игра запущена из zxchelper-update.jar, новая версия будет сохранена в "
+                                + alt.getFileName(), Formatting.GRAY);
+                        target = alt;
                     }
                 } catch (IOException ignored) {
                 }
@@ -150,21 +148,21 @@ public class ZUpdateCommand extends BaseClientCommand {
                 Files.copy(in, target, StandardCopyOption.REPLACE_EXISTING);
             }
 
-            sendChat("Обновление скачано в: " + target.getFileName());
-            sendChat("Перед следующим запуском оставь в папке mods только новую версию ZXCHelper.");
+            ZXCUtils.send("Обновление скачано в: " + target.getFileName(), Formatting.GREEN);
+            ZXCUtils.send("Перед следующим запуском оставь в папке mods только новую версию ZXCHelper.", Formatting.GRAY);
             return true;
 
         } catch (IOException e) {
             e.printStackTrace();
-            sendChat("Ошибка при загрузке обновления: " + e.getClass().getSimpleName()
-                    + " - " + safeMsg(e.getMessage()));
+            ZXCUtils.send("Ошибка при загрузке обновления: " + e.getClass().getSimpleName()
+                    + " - " + safeMsg(e.getMessage()), Formatting.RED);
             return false;
         }
     }
 
     private Path getCurrentJarPath() {
         try {
-            URI uri = ZXCHelper.class
+            URI uri = ru.emrass.zxchelper.ZXCHelper.class
                     .getProtectionDomain()
                     .getCodeSource()
                     .getLocation()
@@ -180,17 +178,6 @@ public class ZUpdateCommand extends BaseClientCommand {
         } catch (Exception ignored) {
         }
         return null;
-    }
-
-
-    private void sendChat(String msg) {
-        MinecraftClient mc = MinecraftClient.getInstance();
-        mc.execute(() -> {
-            if (mc.player != null) {
-                Text prefix = Text.literal(ZXCHelper.CHAT_PREFIX).formatted(Formatting.GOLD);
-                mc.player.sendMessage(prefix.copy().append(Text.literal(msg)));
-            }
-        });
     }
 
     private String safeMsg(String m) {

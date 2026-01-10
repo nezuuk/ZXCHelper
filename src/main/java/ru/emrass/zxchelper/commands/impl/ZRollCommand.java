@@ -15,7 +15,7 @@ public class ZRollCommand extends BaseClientCommand {
     @Override
     protected int execute(FabricClientCommandSource src, List<String> args) {
         int roll = new Random().nextInt(100);
-        ZXCHelper.getInstance().getWebService().sendChat("выбросил %s!".formatted(roll));
+        ZXCHelper.getInstance().getSecretChatManager().sendChat("выбросил %s!".formatted(roll));
         return 0;
     }
 }

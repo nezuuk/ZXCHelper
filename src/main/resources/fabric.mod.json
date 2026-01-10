@@ -9,6 +9,9 @@
   "entrypoints": {
     "client": [
       "ru.emrass.zxchelper.ZXCHelper"
+    ],
+    "modmenu": [
+      "ru.emrass.zxchelper.config.compat.ModMenuIntegration"
     ]
   },
   "mixins": [

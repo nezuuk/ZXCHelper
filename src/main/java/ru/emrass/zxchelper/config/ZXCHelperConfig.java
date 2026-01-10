@@ -2,11 +2,22 @@ package ru.emrass.zxchelper.config;
 
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Data
 public class ZXCHelperConfig {
     private Set<String> friends = new HashSet<>();
     private String lastInstalledVersion;
+    private List<String> chatWheelMessages = new ArrayList<>(List.of(
+            "Test message 1",
+            "Test message 2",
+            "Sexy drill",
+            "Zed pidor",
+            "Отсоси",
+            "Назад",
+            "HAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    ));
 }

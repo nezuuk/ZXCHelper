@@ -6,22 +6,16 @@ import ru.emrass.zxchelper.commands.BaseClientCommand;
 
 import java.util.List;
 
-
 public class SendCommand extends BaseClientCommand {
 
     public SendCommand() {
-        super("send", "TopSecret", 1, true);
+        super("send", "Отправить сообщение", 1, true);
     }
 
     @Override
     protected int execute(FabricClientCommandSource src, List<String> args) {
         String msg = args.isEmpty() ? "" : args.get(0);
-        ZXCHelper.getInstance().getWebService().sendChat(msg);
+        ZXCHelper.getInstance().getSecretChatManager().sendChat(msg);
         return 1;
-    }
-
-    @Override
-    protected List<String> complete(FabricClientCommandSource src, List<String> argsSoFar) {
-        return List.of("hello everyone", "gg", "wp");
     }
 }

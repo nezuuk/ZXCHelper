@@ -4,6 +4,6 @@
   "package": "ru.emrass.zxchelper.mixin",
   "compatibilityLevel": "JAVA_17",
   "client": [
-    "EntityGlowMixin"
+    "PlayerGlowMixin"
   ]
 }
