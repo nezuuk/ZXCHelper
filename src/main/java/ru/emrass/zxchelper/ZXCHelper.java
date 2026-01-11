@@ -12,10 +12,7 @@ import ru.emrass.zxchelper.commands.impl.sounds.ZSoundCommand;
 import ru.emrass.zxchelper.commands.impl.sounds.ZSyncCommand;
 import ru.emrass.zxchelper.commands.impl.sounds.ZUploadCommand;
 import ru.emrass.zxchelper.features.FeatureRegistry;
-import ru.emrass.zxchelper.features.impl.AutoClicker;
-import ru.emrass.zxchelper.features.impl.ChatWheelFeature;
-import ru.emrass.zxchelper.features.impl.GlowHighlightFeature;
-import ru.emrass.zxchelper.features.impl.PingFeature;
+import ru.emrass.zxchelper.features.impl.*;
 import ru.emrass.zxchelper.hwidcontrol.HWIDManager;
 import ru.emrass.zxchelper.net.WsHandlerRegistry;
 import ru.emrass.zxchelper.net.WsService;
@@ -56,7 +53,7 @@ public class ZXCHelper implements ClientModInitializer {
                 new TestCommand(), new ZRollCommand(), new ZVersionCommand(), new ZOnlineCommand(),
                 new ZUploadCommand(), new ZSyncCommand(), new ZSoundCommand(), new GenKeyCommand());
         FeatureRegistry.registerFeatures(new AutoClicker(), glowHighlightFeature, new ChatWheelFeature(),
-                new PingFeature());
+                new PingFeature(), new SoundWheelFeature());
 
         WsHandlerRegistry.registerHandlers(secretChatManager, new ErrorManager(), pingManager, new StatusOnlineManager(),
                 new SoundSyncManager(), new SoundPlayManager(), new HWIDManager());

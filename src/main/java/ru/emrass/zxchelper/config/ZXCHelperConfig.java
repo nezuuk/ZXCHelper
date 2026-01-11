@@ -14,6 +14,7 @@ public class ZXCHelperConfig {
     private boolean isActivePrefixChat = true;
     private int pingColor = 0x00FF00;
     private String licenseKey = "";
+    private boolean showStatus = false;
     private List<String> chatWheelMessages = new ArrayList<>(List.of(
             "Test message 1",
             "Test message 2",
@@ -23,4 +24,5 @@ public class ZXCHelperConfig {
             "Назад",
             "HAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
     ));
+    private List<String> soundWheelSounds = new ArrayList<>();
 }

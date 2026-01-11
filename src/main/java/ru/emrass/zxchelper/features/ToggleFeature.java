@@ -2,6 +2,7 @@ package ru.emrass.zxchelper.features;
 
 import lombok.Getter;
 import net.minecraft.client.MinecraftClient;
+import ru.emrass.zxchelper.config.ConfigManager;
 
 public abstract class ToggleFeature extends BaseFeature {
 
@@ -26,7 +27,7 @@ public abstract class ToggleFeature extends BaseFeature {
         if (this.enabled == value) return;
         this.enabled = value;
 
-        if (showStatus) {
+        if (showStatus && ConfigManager.getConfig().isShowStatus()) {
             sendStatusMessage(this.enabled);
         }
 
