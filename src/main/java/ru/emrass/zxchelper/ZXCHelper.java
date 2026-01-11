@@ -3,7 +3,7 @@ package ru.emrass.zxchelper;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
+import org.slf4j.Logger;
 import ru.emrass.zxchelper.commands.CommandRegistry;
 import ru.emrass.zxchelper.commands.impl.*;
 import ru.emrass.zxchelper.commands.impl.sounds.ZSoundCommand;
@@ -23,7 +23,9 @@ import ru.emrass.zxchelper.net.manager.pings.PingManager;
 import ru.emrass.zxchelper.net.manager.sounds.SoundPlayManager;
 import ru.emrass.zxchelper.net.manager.sounds.SoundSyncManager;
 import ru.emrass.zxchelper.render.PingRenderer;
-import ru.emrass.zxchelper.utils.SoundPackGenerator;
+import ru.emrass.zxchelper.utils.AudioConverter;
+import ru.emrass.zxchelper.utils.ConverterDownloader;
+import ru.emrass.zxchelper.utils.SoundUtils;
 
 @Slf4j
 public class ZXCHelper implements ClientModInitializer {
@@ -39,10 +41,11 @@ public class ZXCHelper implements ClientModInitializer {
     private final SecretChatManager secretChatManager = new SecretChatManager(webService);
     @Getter
     private final PingManager pingManager = new PingManager();
-
+    @Getter
+    private Logger logger = log;
     @Override
     public void onInitializeClient() {
-        log.info("init: {}", MOD_NAME);
+        logger.info("init: {}", MOD_NAME);
         instance = this;
         webService.start();
         CommandRegistry.registerCommands(new SendCommand(), new ZHelpCommand(), new ZAddFriendCommand(),
@@ -57,13 +60,9 @@ public class ZXCHelper implements ClientModInitializer {
         PingRenderer.register();
 
 
-        SoundPackGenerator.init();
-
-
-        SoundPackGenerator.generateFilesOnStartup();
-
-
-        ClientLifecycleEvents.CLIENT_STARTED.register(SoundPackGenerator::checkAutoEnable);
+        ConverterDownloader.checkAndDownload();
+        AudioConverter.process();
+        SoundUtils.refreshSoundList();
     }
 
 

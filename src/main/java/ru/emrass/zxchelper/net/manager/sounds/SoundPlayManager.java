@@ -13,7 +13,8 @@ import net.minecraft.util.Identifier;
 import ru.emrass.zxchelper.ZXCHelper;
 import ru.emrass.zxchelper.net.BaseWsHandler;
 import ru.emrass.zxchelper.net.WsMessageType;
-import ru.emrass.zxchelper.utils.SoundPackGenerator;
+import ru.emrass.zxchelper.utils.SoundUtils;
+import ru.emrass.zxchelper.utils.ZXCUtils;
 
 public class SoundPlayManager extends BaseWsHandler {
     public SoundPlayManager() {
@@ -26,12 +27,14 @@ public class SoundPlayManager extends BaseWsHandler {
         double x = json.get("x").getAsDouble();
         double y = json.get("y").getAsDouble();
         double z = json.get("z").getAsDouble();
-        //Если вернуть в радиусе, то подстваить x,y,z c json
+        // подставляем x,y,z чтобы вернуть радиус звучания
         MinecraftClient.getInstance().execute(() -> {
-            if (SoundPackGenerator.loadedSoundNames.contains(soundId)) {
+            if (SoundUtils.loadedSoundNames.contains(soundId)) {
                 ClientPlayerEntity player = MinecraftClient.getInstance().player;
                 if(player == null) return;
-                Identifier id = new Identifier("zxchelper", soundId);
+                Identifier id = new Identifier("zxchelper", "external/" + soundId);
+
+
                 SoundEvent soundEvent = SoundEvent.of(id);
 
                 if (MinecraftClient.getInstance().world != null) {
@@ -49,13 +52,11 @@ public class SoundPlayManager extends BaseWsHandler {
                 if (MinecraftClient.getInstance().player != null) {
                     Text prefix = Text.literal(ZXCHelper.CHAT_PREFIX).formatted(Formatting.GOLD);
                     Text sound = Text.literal(soundId).formatted(Formatting.GRAY);
-                    Text download = Text.literal("СКАЧАТЬ").formatted(Formatting.GREEN)
-                            .styled(style -> style
-                                    .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/zxc sync"))
-                                    .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Text.literal("Нажми, чтобы синхронизировать звуки")))
-                            );
-                    Text errorMsg = prefix.copy().append("Звук %s не найден!".formatted(sound)).formatted(Formatting.RED)
-                            .append(download);
+
+                    Text errorMsg = prefix.copy()
+                            .append(Text.literal(" Звук ").formatted(Formatting.RED))
+                            .append(sound)
+                            .append(Text.literal(" не найден!").formatted(Formatting.RED));
 
                     MinecraftClient.getInstance().player.sendMessage(errorMsg, false);
                 }

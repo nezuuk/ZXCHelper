@@ -4,7 +4,6 @@ package ru.emrass.zxchelper.commands.impl.sounds;
 import com.google.gson.JsonObject;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.text.Text;
 
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.Vec3d;
@@ -12,7 +11,7 @@ import ru.emrass.zxchelper.ZXCHelper;
 import ru.emrass.zxchelper.commands.BaseClientCommand;
 
 import ru.emrass.zxchelper.net.WsMessageType;
-import ru.emrass.zxchelper.utils.SoundPackGenerator;
+import ru.emrass.zxchelper.utils.SoundUtils;
 import ru.emrass.zxchelper.utils.ZXCUtils;
 
 import java.util.List;
@@ -27,7 +26,7 @@ public class ZSoundCommand extends BaseClientCommand {
         String soundId = args.get(0);
         MinecraftClient client = MinecraftClient.getInstance();
 
-        if (!SoundPackGenerator.loadedSoundNames.contains(soundId)) {
+        if (!SoundUtils.loadedSoundNames.contains(soundId)) {
             ZXCUtils.send("Ошибка: Звук '" + soundId + "' не найден!", Formatting.RED);
             return 0;
         }
@@ -50,6 +49,6 @@ public class ZSoundCommand extends BaseClientCommand {
 
     @Override
     protected List<String> complete(FabricClientCommandSource src, List<String> argsSoFar) {
-        return SoundPackGenerator.loadedSoundNames;
+        return SoundUtils.loadedSoundNames;
     }
 }

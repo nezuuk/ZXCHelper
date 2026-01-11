@@ -3,7 +3,7 @@ package ru.emrass.zxchelper.commands.impl.sounds;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import ru.emrass.zxchelper.commands.BaseClientCommand;
 import ru.emrass.zxchelper.net.manager.sounds.SoundSyncManager;
-import ru.emrass.zxchelper.utils.SoundPackGenerator;
+import ru.emrass.zxchelper.utils.SoundUtils;
 
 import java.util.List;
 
@@ -21,6 +21,6 @@ public class ZUploadCommand extends BaseClientCommand {
 
     @Override
     protected List<String> complete(FabricClientCommandSource src, List<String> argsSoFar) {
-        return SoundPackGenerator.loadedSoundNames;
+        return SoundUtils.loadedSoundNames;
     }
 }

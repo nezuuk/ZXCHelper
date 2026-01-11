@@ -77,7 +77,7 @@ public class ChatWheelScreen extends Screen {
             double lineAngle = (i * angleStep) - 90 - (angleStep / 2);
             drawLine(context, centerX, centerY, radiusInner, radiusOuter, lineAngle, 0xFF1164B4);
         }
-
+        drawRing(context, centerX, centerY, (float) radiusInner, 1.2f, 0xFF1164B4);
         for (int i = 0; i < itemCount; i++) {
             String msg = messages.get(i);
 
@@ -173,7 +173,42 @@ public class ChatWheelScreen extends Screen {
         tessellator.draw();
         RenderSystem.disableBlend();
     }
+    private void drawRing(DrawContext context, int centerX, int centerY, float radius, float thickness, int color) {
+        Matrix4f matrix = context.getMatrices().peek().getPositionMatrix();
+        Tessellator tessellator = Tessellator.getInstance();
+        BufferBuilder buffer = tessellator.getBuffer();
 
+        RenderSystem.enableBlend();
+        RenderSystem.defaultBlendFunc();
+        RenderSystem.setShader(GameRenderer::getPositionColorProgram);
+
+        float a = (float)(color >> 24 & 255) / 255.0F;
+        float r = (float)(color >> 16 & 255) / 255.0F;
+        float g = (float)(color >> 8 & 255) / 255.0F;
+        float b = (float)(color & 255) / 255.0F;
+
+        buffer.begin(VertexFormat.DrawMode.TRIANGLE_STRIP, VertexFormats.POSITION_COLOR);
+
+        float rIn = radius - (thickness / 2);
+        float rOut = radius + (thickness / 2);
+
+        int segments = 72;
+
+        for (int i = 0; i <= segments; i++) {
+            double angle = Math.toRadians((360.0 / segments) * i);
+            float cos = (float) Math.cos(angle);
+            float sin = (float) Math.sin(angle);
+
+            buffer.vertex(matrix, centerX + cos * rOut, centerY + sin * rOut, 0)
+                    .color(r, g, b, a).next();
+
+            buffer.vertex(matrix, centerX + cos * rIn, centerY + sin * rIn, 0)
+                    .color(r, g, b, a).next();
+        }
+
+        tessellator.draw();
+        RenderSystem.disableBlend();
+    }
     @Override
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
         if (button == 0) {
@@ -187,7 +222,11 @@ public class ChatWheelScreen extends Screen {
         if (selectedIndex >= 0 && selectedIndex < messages.size()) {
             String msg = messages.get(selectedIndex);
             if (this.client != null && this.client.player != null) {
-                this.client.getNetworkHandler().sendChatMessage(msg);
+                if (msg.startsWith("/")) {
+                    this.client.getNetworkHandler().sendChatCommand(msg.substring(1));
+                } else {
+                    this.client.getNetworkHandler().sendChatMessage(msg);
+                }
             }
         }
         this.close();
