@@ -24,6 +24,7 @@ public class ZXCUtils {
         sendWithPrefix(ZXCHelper.CHAT_PREFIX, msg, color);
     }
 
+
     public void send(String msg) {
         sendWithPrefix(ZXCHelper.CHAT_PREFIX, msg, Formatting.GRAY);
     }

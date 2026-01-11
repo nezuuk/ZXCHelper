@@ -13,6 +13,7 @@ public class ZXCHelperConfig {
     private String lastInstalledVersion;
     private boolean isActivePrefixChat = true;
     private int pingColor = 0x00FF00;
+    private String licenseKey = "";
     private List<String> chatWheelMessages = new ArrayList<>(List.of(
             "Test message 1",
             "Test message 2",

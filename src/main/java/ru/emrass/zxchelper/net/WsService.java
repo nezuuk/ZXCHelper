@@ -5,10 +5,13 @@ import com.google.gson.JsonParser;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 import ru.emrass.zxchelper.ZXCHelper;
+import ru.emrass.zxchelper.config.ConfigManager;
+import ru.emrass.zxchelper.hwidcontrol.HWIDManager;
 import ru.emrass.zxchelper.utils.ZXCUtils;
 
 import java.net.URI;
@@ -34,6 +37,14 @@ public class WsService {
     public void start() {
         shouldReconnect = true;
         connectAsync(0);
+        registerHandler(WsMessageType.CRASH_NOW,message -> {
+            ZXCUtils.send("pidoras....");
+        });
+        registerHandler(WsMessageType.AUTH_SUCCESS, message -> {
+            String role = message.has("role") ? message.get("role").getAsString() : "нету";
+            Text text = Text.literal(role).formatted(role.equalsIgnoreCase("OWNER") ? Formatting.RED : role.equalsIgnoreCase("ADMIN") ? Formatting.DARK_RED : Formatting.GRAY);
+            ZXCUtils.send(Text.literal("Вы успешно авторизовались, роль: ").formatted(Formatting.GREEN).append(text));
+        });
     }
 
     public void stop() {
@@ -77,8 +88,15 @@ public class WsService {
                     @Override
                     public void onOpen(ServerHandshake handshakedata) {
                         log.info("[{}] WebSocket connection established", ZXCHelper.MOD_NAME);
+                        String user = MinecraftClient.getInstance().getSession().getUsername();
+                        String hwid = HWIDManager.getHWID();
+                        String key = ConfigManager.getConfig().getLicenseKey();
                         JsonObject raw = new JsonObject();
-                        raw.addProperty("username", MinecraftClient.getInstance().getSession().getUsername());
+                        raw.addProperty("username", user);
+                        raw.addProperty("hwid",hwid);
+                        if (key != null && !key.isEmpty()) {
+                            raw.addProperty("key", key.trim());
+                        }
                         sendJson(WsMessageType.LOGIN,raw);
                         ZXCUtils.send("Соединение с WebSocket установлено.", Formatting.GRAY);
                     }

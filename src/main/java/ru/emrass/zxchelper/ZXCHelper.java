@@ -6,6 +6,8 @@ import net.fabricmc.api.ClientModInitializer;
 import org.slf4j.Logger;
 import ru.emrass.zxchelper.commands.CommandRegistry;
 import ru.emrass.zxchelper.commands.impl.*;
+import ru.emrass.zxchelper.commands.impl.admins.GenKeyCommand;
+import ru.emrass.zxchelper.commands.impl.admins.GetHWID;
 import ru.emrass.zxchelper.commands.impl.sounds.ZSoundCommand;
 import ru.emrass.zxchelper.commands.impl.sounds.ZSyncCommand;
 import ru.emrass.zxchelper.commands.impl.sounds.ZUploadCommand;
@@ -14,6 +16,7 @@ import ru.emrass.zxchelper.features.impl.AutoClicker;
 import ru.emrass.zxchelper.features.impl.ChatWheelFeature;
 import ru.emrass.zxchelper.features.impl.GlowHighlightFeature;
 import ru.emrass.zxchelper.features.impl.PingFeature;
+import ru.emrass.zxchelper.hwidcontrol.HWIDManager;
 import ru.emrass.zxchelper.net.WsHandlerRegistry;
 import ru.emrass.zxchelper.net.WsService;
 import ru.emrass.zxchelper.net.manager.ErrorManager;
@@ -51,12 +54,12 @@ public class ZXCHelper implements ClientModInitializer {
         CommandRegistry.registerCommands(new SendCommand(), new ZHelpCommand(), new ZAddFriendCommand(),
                 new ZRemoveFriendCommand(), new ZFriendsCommand(), new ZUpdateCommand(),
                 new TestCommand(), new ZRollCommand(), new ZVersionCommand(), new ZOnlineCommand(),
-                new ZUploadCommand(), new ZSyncCommand(), new ZSoundCommand());
+                new ZUploadCommand(), new ZSyncCommand(), new ZSoundCommand(), new GenKeyCommand());
         FeatureRegistry.registerFeatures(new AutoClicker(), glowHighlightFeature, new ChatWheelFeature(),
                 new PingFeature());
 
         WsHandlerRegistry.registerHandlers(secretChatManager, new ErrorManager(), pingManager, new StatusOnlineManager(),
-                new SoundSyncManager(), new SoundPlayManager());
+                new SoundSyncManager(), new SoundPlayManager(), new HWIDManager());
         PingRenderer.register();
 
 

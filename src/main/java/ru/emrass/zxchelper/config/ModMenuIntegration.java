@@ -45,7 +45,15 @@ public class ModMenuIntegration implements ModMenuApi {
                         ConfigManager.save();
                     })
                     .build());
-
+            general.addEntry(entryBuilder.startTextDescription(Text.literal("§eКлюч доступа")).build());
+            general.addEntry(entryBuilder.startStrField(Text.literal("Ключ доступа"), config.getLicenseKey())
+                    .setDefaultValue("")
+                    .setTooltip(Text.literal("Вставь сюда ключ"))
+                    .setSaveConsumer(newValue -> {
+                        config.setLicenseKey(newValue);
+                        ConfigManager.save();
+                    })
+                    .build());
             return builder.build();
         };
     }
