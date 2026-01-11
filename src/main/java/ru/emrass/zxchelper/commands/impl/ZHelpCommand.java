@@ -7,7 +7,6 @@ import ru.emrass.zxchelper.ZXCHelper;
 import ru.emrass.zxchelper.commands.BaseClientCommand;
 import ru.emrass.zxchelper.commands.CommandRegistry;
 import ru.emrass.zxchelper.config.ConfigManager;
-import ru.emrass.zxchelper.util.ZXCUtils;
 
 import java.util.List;
 

@@ -3,7 +3,7 @@ package ru.emrass.zxchelper.commands.impl;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import ru.emrass.zxchelper.commands.BaseClientCommand;
 import ru.emrass.zxchelper.config.ConfigManager;
-import ru.emrass.zxchelper.util.ZXCUtils;
+import ru.emrass.zxchelper.utils.ZXCUtils;
 
 import java.util.List;
 

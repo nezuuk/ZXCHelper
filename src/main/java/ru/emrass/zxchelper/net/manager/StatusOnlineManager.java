@@ -9,7 +9,7 @@ import net.minecraft.util.Formatting;
 import ru.emrass.zxchelper.ZXCHelper;
 import ru.emrass.zxchelper.net.BaseWsHandler;
 import ru.emrass.zxchelper.net.WsMessageType;
-import ru.emrass.zxchelper.util.ZXCUtils;
+import ru.emrass.zxchelper.utils.ZXCUtils;
 
 import java.lang.reflect.Type;
 import java.util.List;

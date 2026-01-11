@@ -1,4 +1,4 @@
-package ru.emrass.zxchelper.util;
+package ru.emrass.zxchelper.utils;
 
 import lombok.experimental.UtilityClass;
 import net.minecraft.client.MinecraftClient;

@@ -9,7 +9,7 @@ import net.minecraft.util.Formatting;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 import ru.emrass.zxchelper.ZXCHelper;
-import ru.emrass.zxchelper.util.ZXCUtils;
+import ru.emrass.zxchelper.utils.ZXCUtils;
 
 import java.net.URI;
 import java.util.EnumMap;

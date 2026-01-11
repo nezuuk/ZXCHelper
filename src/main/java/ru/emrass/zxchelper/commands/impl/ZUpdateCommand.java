@@ -7,7 +7,7 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.util.Formatting;
 import ru.emrass.zxchelper.commands.BaseClientCommand;
 import ru.emrass.zxchelper.config.ConfigManager;
-import ru.emrass.zxchelper.util.ZXCUtils;
+import ru.emrass.zxchelper.utils.ZXCUtils;
 
 import java.io.IOException;
 import java.io.InputStream;

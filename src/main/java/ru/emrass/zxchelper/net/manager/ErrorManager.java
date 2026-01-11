@@ -3,10 +3,9 @@ package ru.emrass.zxchelper.net.manager;
 import com.google.gson.JsonObject;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-import ru.emrass.zxchelper.ZXCHelper;
 import ru.emrass.zxchelper.net.BaseWsHandler;
 import ru.emrass.zxchelper.net.WsMessageType;
-import ru.emrass.zxchelper.util.ZXCUtils;
+import ru.emrass.zxchelper.utils.ZXCUtils;
 
 public class ErrorManager extends BaseWsHandler {
 

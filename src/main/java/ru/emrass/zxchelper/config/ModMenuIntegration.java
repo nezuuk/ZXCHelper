@@ -39,7 +39,7 @@ public class ModMenuIntegration implements ModMenuApi {
             general.addEntry(entryBuilder.startTextDescription(Text.literal("§eНастройки Пингов")).build());
             general.addEntry(entryBuilder.startColorField(Text.literal("Цвет метки (Местность)"), config.getPingColor())
                     .setDefaultValue(0x00FF00) // Зеленый
-                    .setTooltip(Text.literal("Нажми на цветной квадрат для выбора цвета"))
+                    .setTooltip(Text.literal("Выбор цвета метки"))
                     .setSaveConsumer(color -> {
                         config.setPingColor(color);
                         ConfigManager.save();
