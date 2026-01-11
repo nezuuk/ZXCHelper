@@ -1,7 +1,7 @@
 package ru.emrass.zxchelper.net;
 
 public enum WsMessageType {
-    CHAT, ERROR, JSON;
+    CHAT, ERROR, JSON, PING, LOGIN, ONLINE;
 
     public static WsMessageType fromString(String s) {
         if (s == null) return ERROR;

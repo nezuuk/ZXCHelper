@@ -14,10 +14,14 @@ import ru.emrass.zxchelper.features.FeatureRegistry;
 import ru.emrass.zxchelper.features.impl.AutoClicker;
 import ru.emrass.zxchelper.features.impl.ChatWheelFeature;
 import ru.emrass.zxchelper.features.impl.GlowHighlightFeature;
+import ru.emrass.zxchelper.features.impl.PingFeature;
 import ru.emrass.zxchelper.net.WsHandlerRegistry;
 import ru.emrass.zxchelper.net.WsService;
 import ru.emrass.zxchelper.net.manager.ErrorManager;
 import ru.emrass.zxchelper.net.manager.SecretChatManager;
+import ru.emrass.zxchelper.net.manager.StatusOnlineManager;
+import ru.emrass.zxchelper.net.manager.pings.PingManager;
+import ru.emrass.zxchelper.render.PingRenderer;
 
 @Slf4j
 public class ZXCHelper implements ClientModInitializer {
@@ -32,7 +36,8 @@ public class ZXCHelper implements ClientModInitializer {
     @Getter
     private final SecretChatManager secretChatManager = new SecretChatManager(webService);
     private static KeyBinding chatWheelKey;
-
+    @Getter
+    private final PingManager pingManager = new PingManager();
     @Override
     public void onInitializeClient() {
         log.info("init: {}", MOD_NAME);
@@ -40,9 +45,10 @@ public class ZXCHelper implements ClientModInitializer {
         webService.start();
         CommandRegistry.registerCommands(new SendCommand(), new ZHelpCommand(), new ZAddFriendCommand(),
                 new ZRemoveFriendCommand(), new ZFriendsCommand(), new ZUpdateCommand(),
-                new TestCommand(), new ZRollCommand());
-        FeatureRegistry.registerFeatures(new AutoClicker(), glowHighlightFeature, new ChatWheelFeature());
-        WsHandlerRegistry.registerHandlers(secretChatManager, new ErrorManager());
+                new TestCommand(), new ZRollCommand(), new ZVersionCommand(), new ZOnlineCommand());
+        FeatureRegistry.registerFeatures(new AutoClicker(), glowHighlightFeature, new ChatWheelFeature(), new PingFeature());
+        WsHandlerRegistry.registerHandlers(secretChatManager, new ErrorManager(), pingManager, new StatusOnlineManager());
+        PingRenderer.register();
     }
 
 

@@ -11,6 +11,8 @@ import java.util.Set;
 public class ZXCHelperConfig {
     private Set<String> friends = new HashSet<>();
     private String lastInstalledVersion;
+    private boolean isActivePrefixChat = true;
+    private int pingColor = 0x00FF00;
     private List<String> chatWheelMessages = new ArrayList<>(List.of(
             "Test message 1",
             "Test message 2",

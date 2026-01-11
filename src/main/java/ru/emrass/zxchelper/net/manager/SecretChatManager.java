@@ -1,10 +1,12 @@
 package ru.emrass.zxchelper.net.manager;
 
 import com.google.gson.JsonObject;
+import net.fabricmc.fabric.api.client.message.v1.ClientSendMessageEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import ru.emrass.zxchelper.ZXCHelper;
+import ru.emrass.zxchelper.config.ConfigManager;
 import ru.emrass.zxchelper.net.BaseWsHandler;
 import ru.emrass.zxchelper.net.WsMessageType;
 import ru.emrass.zxchelper.net.WsService;
@@ -17,6 +19,28 @@ public final class SecretChatManager extends BaseWsHandler {
     public SecretChatManager(WsService wsService) {
         super(WsMessageType.CHAT);
         this.wsService = wsService;
+
+
+        ClientSendMessageEvents.ALLOW_CHAT.register(message -> {
+            if(ConfigManager.getConfig().isActivePrefixChat()) {
+                if (message.startsWith("#") || message.startsWith("№")) {
+
+                    String content = message.substring(1).trim();
+
+                    if (content.isEmpty()) {
+                        return false;
+                    }
+
+                    sendChat(content);
+
+                    return false;
+                }
+
+                return true;
+            }else {
+                return true;
+            }
+        });
     }
 
     public void sendChat(String text) {

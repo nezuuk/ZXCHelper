@@ -6,6 +6,8 @@ import net.minecraft.util.Formatting;
 import ru.emrass.zxchelper.ZXCHelper;
 import ru.emrass.zxchelper.commands.BaseClientCommand;
 import ru.emrass.zxchelper.commands.CommandRegistry;
+import ru.emrass.zxchelper.config.ConfigManager;
+import ru.emrass.zxchelper.util.ZXCUtils;
 
 import java.util.List;
 
@@ -19,11 +21,14 @@ public class ZHelpCommand extends BaseClientCommand {
     @Override
     protected int execute(FabricClientCommandSource src, List<String> args) {
         if (src.getPlayer() == null) return 0;
+        Text prefix = Text.literal(ZXCHelper.CHAT_PREFIX).formatted(Formatting.GOLD);
 
-        Text header = Text.literal("✌ Список команд " + ZXCHelper.MOD_NAME + ":")
-                .formatted(Formatting.GOLD);
+        Text header = prefix.copy().append(Text.literal("✌ Список команд " + ZXCHelper.MOD_NAME + ":")
+                .formatted(Formatting.GOLD));
+        Text version =  prefix.copy().append(Text.literal("✌ Версия мода: %s".formatted(ConfigManager.getConfig().getLastInstalledVersion()))
+                .formatted(Formatting.GRAY));
         src.getPlayer().sendMessage(header);
-
+        src.getPlayer().sendMessage(version);
         for (BaseClientCommand cmd : CommandRegistry.getCommands()) {
             Text line = Text.literal("✌ ")
                     .formatted(Formatting.GOLD)

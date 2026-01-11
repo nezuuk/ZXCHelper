@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.Formatting;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
@@ -76,6 +77,9 @@ public class WsService {
                     @Override
                     public void onOpen(ServerHandshake handshakedata) {
                         log.info("[{}] WebSocket connection established", ZXCHelper.MOD_NAME);
+                        JsonObject raw = new JsonObject();
+                        raw.addProperty("username", MinecraftClient.getInstance().getSession().getUsername());
+                        sendJson(WsMessageType.LOGIN,raw);
                         ZXCUtils.send("Соединение с WebSocket установлено.", Formatting.GRAY);
                     }
 

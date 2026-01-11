@@ -12,7 +12,7 @@
       "ru.emrass.zxchelper.ZXCHelper"
     ],
     "modmenu": [
-      "ru.emrass.zxchelper.config.compat.ModMenuIntegration"
+      "ru.emrass.zxchelper.config.ModMenuIntegration"
     ]
   },
   "mixins": [

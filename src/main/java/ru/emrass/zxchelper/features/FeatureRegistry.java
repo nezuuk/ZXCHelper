@@ -19,7 +19,8 @@ import java.util.List;
 public final class FeatureRegistry {
 
     private static final String KEY_CATEGORY_NAME = "ZXCHelper";
-
+    private static long lastActiveTime = 0;
+    private static final long COOLDOWN = 500;
     @Getter
     private static final List<BaseFeature> features = new ArrayList<>();
     private static boolean initialized = false;
@@ -77,7 +78,9 @@ public final class FeatureRegistry {
         for (BaseFeature feature : features) {
             if (feature.isKeybound() && feature.getKeyBinding() != null) {
                 while (feature.getKeyBinding().wasPressed()) {
+                    if(System.currentTimeMillis() - lastActiveTime < COOLDOWN) continue;
                     feature.onKeyPressed(client);
+                    lastActiveTime = System.currentTimeMillis();
                 }
             }
 
