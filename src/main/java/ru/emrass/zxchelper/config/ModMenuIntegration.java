@@ -66,8 +66,8 @@ public class ModMenuIntegration implements ModMenuApi {
                     .build());
 
             general.addEntry(entryBuilder.startTextDescription(Text.literal("§eНастройки Пингов")).build());
-            general.addEntry(entryBuilder.startColorField(Text.literal("Цвет метки (Местность)"), config.getPingColor())
-                    .setDefaultValue(0x00FF00) // Зеленый
+            general.addEntry(entryBuilder.startColorField(Text.literal("Цвет метки"), config.getPingColor())
+                    .setDefaultValue(0x00FF00)
                     .setTooltip(Text.literal("Выбор цвета метки"))
                     .setSaveConsumer(color -> {
                         config.setPingColor(color);
@@ -100,7 +100,15 @@ public class ModMenuIntegration implements ModMenuApi {
                         ConfigManager.save();
                     })
                     .build());
-
+            general.addEntry(entryBuilder.startTextDescription(Text.literal("§eПодсветка")).build());
+            general.addEntry(entryBuilder.startBooleanToggle(Text.literal("Префикс чата"), config.isActivePrefixChat())
+                    .setDefaultValue(true)
+                    .setTooltip(Text.literal("Включить префикс чата? # and №"))
+                    .setSaveConsumer(newValue -> {
+                        config.setActivePrefixChat(newValue);
+                        ConfigManager.save();
+                    })
+                    .build());
 
             return builder.build();
         };

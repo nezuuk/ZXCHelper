@@ -13,6 +13,9 @@
     ],
     "modmenu": [
       "ru.emrass.zxchelper.config.ModMenuIntegration"
+    ],
+    "journeymap": [
+      "ru.emrass.zxchelper.journeymap.MapIntegration"
     ]
   },
   "mixins": [
