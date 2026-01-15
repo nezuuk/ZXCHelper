@@ -3,7 +3,7 @@ package ru.emrass.zxchelper.commands.impl.sounds;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import ru.emrass.zxchelper.commands.BaseClientCommand;
 import ru.emrass.zxchelper.net.manager.sounds.SoundSyncManager;
-import ru.emrass.zxchelper.utils.SoundUtils;
+import ru.emrass.zxchelper.utils.sounds.SoundUtils;
 
 import java.util.List;
 

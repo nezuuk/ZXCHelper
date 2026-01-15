@@ -5,16 +5,13 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
-import net.minecraft.text.ClickEvent;
-import net.minecraft.text.HoverEvent;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import ru.emrass.zxchelper.ZXCHelper;
 import ru.emrass.zxchelper.net.BaseWsHandler;
 import ru.emrass.zxchelper.net.WsMessageType;
-import ru.emrass.zxchelper.utils.SoundUtils;
-import ru.emrass.zxchelper.utils.ZXCUtils;
+import ru.emrass.zxchelper.utils.sounds.SoundUtils;
 
 public class SoundPlayManager extends BaseWsHandler {
     public SoundPlayManager() {

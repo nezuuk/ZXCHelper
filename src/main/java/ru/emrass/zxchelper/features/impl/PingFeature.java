@@ -11,7 +11,7 @@ import net.minecraft.world.RaycastContext;
 import org.lwjgl.glfw.GLFW;
 import ru.emrass.zxchelper.ZXCHelper;
 import ru.emrass.zxchelper.features.BaseFeature;
-import ru.emrass.zxchelper.net.manager.pings.PingManager;
+import ru.emrass.zxchelper.pings.manager.PingManager;
 
 
 public class PingFeature extends BaseFeature {

@@ -1,4 +1,4 @@
-package ru.emrass.zxchelper.net.manager.pings;
+package ru.emrass.zxchelper.pings.manager;
 
 import com.google.gson.JsonObject;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -12,9 +12,9 @@ import ru.emrass.zxchelper.config.ConfigManager;
 import ru.emrass.zxchelper.journeymap.MapIntegration;
 import ru.emrass.zxchelper.net.BaseWsHandler;
 import ru.emrass.zxchelper.net.WsMessageType;
+import ru.emrass.zxchelper.pings.Ping;
 
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class PingManager extends BaseWsHandler {
@@ -34,6 +34,7 @@ public class PingManager extends BaseWsHandler {
         double y = json.has("y") ? json.get("y").getAsDouble() : 0;
         double z = json.has("z") ? json.get("z").getAsDouble() : 0;
         int color = json.has("color") ? json.get("color").getAsInt() : 0;
+        String skin = json.has("skin") ? json.get("skin").getAsString() : "default";
         int entityID = json.has("entityid") ? json.get("entityid").getAsInt() : -1;
 
         String action = json.has("action") ? json.get("action").getAsString() : "ADD";
@@ -62,7 +63,7 @@ public class PingManager extends BaseWsHandler {
             for (Ping existingPing : activePings) {
                 if (entityID != -1 && existingPing.getEntityId() == entityID) return;
             }
-            Ping ping = new Ping(pingPos, color, entityID);
+            Ping ping = new Ping(pingPos, color, skin, entityID);
 
             if (FabricLoader.getInstance().isModLoaded("journeymap")) {
                 MapIntegration.createWaypoint(ping);
@@ -75,7 +76,8 @@ public class PingManager extends BaseWsHandler {
 
     public void addPing(double x, double y, double z, boolean isEnemy, int entityId) {
         int color = isEnemy ? 0xFFFF0000 : ConfigManager.getConfig().getPingColor();
-        Ping ping = new Ping(new Vec3d(x, y, z), color, entityId);
+        String skin = isEnemy ? ConfigManager.getConfig().getSelectedEnemySkin() : ConfigManager.getConfig().getSelectedArrowSkin();
+        Ping ping = new Ping(new Vec3d(x, y, z), color, skin, entityId);
         String action = "ADD";
 
         if (entityId != -1) {
@@ -96,10 +98,11 @@ public class PingManager extends BaseWsHandler {
         json.addProperty("y", ping.getPos().getY());
         json.addProperty("z", ping.getPos().getZ());
         json.addProperty("color", ping.getColor());
+        json.addProperty("skin", ping.getSkin());
         json.addProperty("entityid", ping.getEntityId());
         json.addProperty("action", action);
 
-        ZXCHelper.getInstance().getWebService().sendJson(WsMessageType.PING, json);
+        ZXCHelper.getInstance().getWebService().send(WsMessageType.PING, json);
     }
 
     private void tick(MinecraftClient client) {
@@ -114,9 +117,9 @@ public class PingManager extends BaseWsHandler {
                     Entity entity = client.world.getEntityById(ping.getEntityId());
                     if (entity == null || !entity.isAlive()) shouldRemove = true;
 
-                     if (!shouldRemove && FabricLoader.getInstance().isModLoaded("journeymap")) {
-                         MapIntegration.updatePos(ping);
-                     }
+                    if (!shouldRemove && FabricLoader.getInstance().isModLoaded("journeymap")) {
+                        MapIntegration.updatePos(ping);
+                    }
                 }
             } else {
                 if ((now - ping.getStartTime()) > 5000) shouldRemove = true;

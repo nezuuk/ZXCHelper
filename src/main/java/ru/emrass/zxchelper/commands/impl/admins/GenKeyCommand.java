@@ -21,7 +21,7 @@ public class GenKeyCommand extends BaseClientCommand {
         boolean isAdmin = Boolean.parseBoolean(args.get(0));
         json.addProperty("admin", isAdmin);
         ZXCUtils.send("Генерируем ключ...");
-        ZXCHelper.getInstance().getWebService().sendJson(WsMessageType.GENERATE_KEY, json);
+        ZXCHelper.getInstance().getWebService().send(WsMessageType.GENERATE_KEY, json);
         return 1;
     }
 }

@@ -1,7 +1,9 @@
-package ru.emrass.zxchelper.utils;
+package ru.emrass.zxchelper.utils.sounds;
 
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.util.Formatting;
+import ru.emrass.zxchelper.utils.ZXCPaths;
+import ru.emrass.zxchelper.utils.ZXCUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,21 +15,12 @@ import java.util.stream.Stream;
 
 public class AudioConverter {
 
-    private static final Path SOURCE_DIR = FabricLoader.getInstance().getGameDir().resolve("zxc_sounds");
-    private static final Path CACHE_DIR = FabricLoader.getInstance().getGameDir().resolve("zxc_sounds_cache");
-
     private static final String[] EXTENSIONS = {".mp4", ".mp3", ".wav", ".m4a", ".flac", ".ogg"};
 
     public static void process() {
-        if (!Files.exists(SOURCE_DIR)) {
-            try { Files.createDirectories(SOURCE_DIR); } catch (IOException e) {}
-            return;
-        }
-        if (!Files.exists(CACHE_DIR)) {
-            try { Files.createDirectories(CACHE_DIR); } catch (IOException e) {}
-        }
 
-        try (Stream<Path> paths = Files.walk(SOURCE_DIR)) {
+
+        try (Stream<Path> paths = Files.walk(ZXCPaths.SOUNDS)) {
             paths.filter(Files::isRegularFile).forEach(path -> {
                 String fileName = path.getFileName().toString().toLowerCase();
                 for (String ext : EXTENSIONS) {
@@ -45,7 +38,7 @@ public class AudioConverter {
     private static void convertFile(Path source, String ext) {
         String cleanName = source.getFileName().toString().replace(ext, "").toLowerCase().replaceAll("[^a-z0-9_]", "_");
         String oggName = cleanName + ".ogg";
-        Path targetPath = CACHE_DIR.resolve(oggName);
+        Path targetPath = ZXCPaths.SCACHE.resolve(oggName);
 
         if (Files.exists(targetPath)) return;
 

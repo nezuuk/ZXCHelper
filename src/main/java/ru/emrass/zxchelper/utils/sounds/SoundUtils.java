@@ -1,6 +1,7 @@
-package ru.emrass.zxchelper.utils;
+package ru.emrass.zxchelper.utils.sounds;
 
 import net.fabricmc.loader.api.FabricLoader;
+import ru.emrass.zxchelper.utils.ZXCPaths;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -11,7 +12,6 @@ import java.util.stream.Stream;
 
 public class SoundUtils {
 
-    public static final Path CACHE_DIR = FabricLoader.getInstance().getGameDir().resolve("zxc_sounds_cache");
 
     public static List<String> loadedSoundNames = new ArrayList<>();
 
@@ -19,11 +19,7 @@ public class SoundUtils {
     public static void refreshSoundList() {
         loadedSoundNames.clear();
 
-        if (!Files.exists(CACHE_DIR)) {
-            return;
-        }
-
-        try (Stream<Path> paths = Files.walk(CACHE_DIR)) {
+        try (Stream<Path> paths = Files.walk(ZXCPaths.SCACHE)) {
             paths.filter(Files::isRegularFile)
                     .filter(p -> p.toString().endsWith(".ogg"))
                     .forEach(path -> {

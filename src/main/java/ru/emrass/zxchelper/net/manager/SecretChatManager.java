@@ -54,7 +54,7 @@ public final class SecretChatManager extends BaseWsHandler {
         json.addProperty("player", nick);
         json.addProperty("text", text);
 
-        wsService.sendJson(WsMessageType.CHAT, json);
+        wsService.send(WsMessageType.CHAT, json);
     }
 
     @Override

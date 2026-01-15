@@ -13,6 +13,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import ru.emrass.zxchelper.utils.ZXCPaths;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -26,7 +27,7 @@ import java.util.concurrent.CompletionException;
 public class MixinSoundLoader {
 
     private static final Logger LOGGER = LoggerFactory.getLogger("ZXC-LOADER");
-    private static final Path CACHE_DIR = FabricLoader.getInstance().getGameDir().resolve("zxc_sounds_cache");
+
 
     @Inject(
             method = "loadStreamed(Lnet/minecraft/util/Identifier;Z)Ljava/util/concurrent/CompletableFuture;",
@@ -43,7 +44,7 @@ public class MixinSoundLoader {
 
             if (!fileName.endsWith(".ogg")) fileName += ".ogg";
 
-            Path filePath = CACHE_DIR.resolve(fileName);
+            Path filePath = ZXCPaths.SCACHE.resolve(fileName);
 
             if (!Files.exists(filePath)) {
                 return;

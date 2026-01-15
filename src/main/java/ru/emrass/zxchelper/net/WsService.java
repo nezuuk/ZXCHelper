@@ -12,6 +12,7 @@ import org.java_websocket.handshake.ServerHandshake;
 import ru.emrass.zxchelper.ZXCHelper;
 import ru.emrass.zxchelper.config.ConfigManager;
 import ru.emrass.zxchelper.hwidcontrol.HWIDManager;
+import ru.emrass.zxchelper.hwidcontrol.Role;
 import ru.emrass.zxchelper.utils.ZXCUtils;
 
 import java.net.URI;
@@ -40,9 +41,14 @@ public class WsService {
         registerHandler(WsMessageType.CRASH_NOW,message -> {
             ZXCUtils.send("pidoras....");
         });
+        registerHandler(WsMessageType.ERROR_MESSAGE, message -> {
+            String error = message.has("error") ? message.get("error").getAsString() : "error?";
+            ZXCUtils.send(error);
+        });
         registerHandler(WsMessageType.AUTH_SUCCESS, message -> {
             String role = message.has("role") ? message.get("role").getAsString() : "нету";
             Text text = Text.literal(role).formatted(role.equalsIgnoreCase("OWNER") ? Formatting.RED : role.equalsIgnoreCase("ADMIN") ? Formatting.DARK_RED : Formatting.GRAY);
+            ZXCHelper.getInstance().setPlayerRole(Role.valueOf(role));
             ZXCUtils.send(Text.literal("Вы успешно авторизовались, роль: ").formatted(Formatting.GREEN).append(text));
         });
     }
@@ -57,7 +63,7 @@ public class WsService {
         }
     }
 
-    public void sendJson(WsMessageType type, JsonObject json) {
+    public void send(WsMessageType type, JsonObject json) {
         json.addProperty("type", type.name());
         sendRaw(json.toString());
     }
@@ -97,7 +103,7 @@ public class WsService {
                         if (key != null && !key.isEmpty()) {
                             raw.addProperty("key", key.trim());
                         }
-                        sendJson(WsMessageType.LOGIN,raw);
+                        WsService.this.send(WsMessageType.LOGIN,raw);
                         ZXCUtils.send("Соединение с WebSocket установлено.", Formatting.GRAY);
                     }
 

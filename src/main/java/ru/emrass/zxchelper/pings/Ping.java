@@ -1,4 +1,4 @@
-package ru.emrass.zxchelper.net.manager.pings;
+package ru.emrass.zxchelper.pings;
 
 import lombok.Data;
 import lombok.Getter;
@@ -14,12 +14,14 @@ public class Ping {
     private String id;
     private final long startTime;
     private final int color;
+    private final String skin;
     public final int entityId;
 
-    public Ping(Vec3d pos, int color, int entityId) {
+    public Ping(Vec3d pos, int color, String skin, int entityId) {
         this.pos = pos;
         this.id = UUID.randomUUID().toString();
         this.color = color;
+        this.skin = skin;
         this.entityId = entityId;
         this.startTime = System.currentTimeMillis();
     }

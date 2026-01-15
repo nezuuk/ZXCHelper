@@ -15,7 +15,7 @@ public class ZOnlineCommand extends BaseClientCommand {
 
     @Override
     protected int execute(FabricClientCommandSource src, List<String> args) {
-        ZXCHelper.getInstance().getWebService().sendJson(WsMessageType.ONLINE, new JsonObject());
+        ZXCHelper.getInstance().getWebService().send(WsMessageType.ONLINE, new JsonObject());
 
         return 0;
     }

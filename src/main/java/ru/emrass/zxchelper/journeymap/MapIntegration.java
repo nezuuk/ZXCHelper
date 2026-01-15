@@ -4,7 +4,6 @@ import journeymap.client.api.IClientAPI;
 import journeymap.client.api.IClientPlugin;
 import journeymap.client.api.display.Displayable;
 import journeymap.client.api.display.MarkerOverlay;
-import journeymap.client.api.display.Waypoint;
 import journeymap.client.api.event.ClientEvent;
 import journeymap.client.api.model.MapImage;
 import lombok.SneakyThrows;
@@ -13,11 +12,10 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import ru.emrass.zxchelper.net.manager.pings.Ping;
+import ru.emrass.zxchelper.pings.Ping;
 
 import java.util.HashMap;
 import java.util.Map;
-
 @journeymap.client.api.ClientPlugin
 public class MapIntegration implements IClientPlugin {
 

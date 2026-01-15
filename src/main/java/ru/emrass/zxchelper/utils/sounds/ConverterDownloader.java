@@ -1,7 +1,9 @@
-package ru.emrass.zxchelper.utils;
+package ru.emrass.zxchelper.utils.sounds;
 
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.util.Formatting;
+import ru.emrass.zxchelper.utils.ZXCPaths;
+import ru.emrass.zxchelper.utils.ZXCUtils;
 
 import java.io.BufferedInputStream;
 import java.io.FileOutputStream;
@@ -13,8 +15,8 @@ import java.util.concurrent.CompletableFuture;
 
 public class ConverterDownloader {
 
-    public static final Path TOOLS_DIR = FabricLoader.getInstance().getGameDir().resolve("zxc_tools");
-    public static final Path FFMPEG_PATH = TOOLS_DIR.resolve("ffmpeg.exe");
+    public static final Path FFMPEG_PATH = ZXCPaths.TOOLS.resolve("ffmpeg.exe");
+
 
 
     private static final String DOWNLOAD_URL = "https://github.com/eugeneware/ffmpeg-static/releases/download/b4.4/win32-x64";
@@ -33,7 +35,6 @@ public class ConverterDownloader {
             try {
                 ZXCUtils.send("Первый запуск: скачиваю конвертер (это займет пару секунд)...", Formatting.YELLOW);
 
-                if (!Files.exists(TOOLS_DIR)) Files.createDirectories(TOOLS_DIR);
 
                 try (BufferedInputStream in = new BufferedInputStream(new URL(DOWNLOAD_URL).openStream());
                      FileOutputStream out = new FileOutputStream(FFMPEG_PATH.toFile())) {

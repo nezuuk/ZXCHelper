@@ -25,4 +25,6 @@ public class ZXCHelperConfig {
             "HAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
     ));
     private List<String> soundWheelSounds = new ArrayList<>();
+    private String selectedArrowSkin = "default";
+    private String selectedEnemySkin = "default";
 }

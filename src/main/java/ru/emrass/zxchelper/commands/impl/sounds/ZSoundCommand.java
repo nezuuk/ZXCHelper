@@ -11,7 +11,7 @@ import ru.emrass.zxchelper.ZXCHelper;
 import ru.emrass.zxchelper.commands.BaseClientCommand;
 
 import ru.emrass.zxchelper.net.WsMessageType;
-import ru.emrass.zxchelper.utils.SoundUtils;
+import ru.emrass.zxchelper.utils.sounds.SoundUtils;
 import ru.emrass.zxchelper.utils.ZXCUtils;
 
 import java.util.List;
@@ -40,7 +40,7 @@ public class ZSoundCommand extends BaseClientCommand {
             json.addProperty("y", pos.y);
             json.addProperty("z", pos.z);
 
-            ZXCHelper.getInstance().getWebService().sendJson(WsMessageType.PLAY_SOUND,json);
+            ZXCHelper.getInstance().getWebService().send(WsMessageType.PLAY_SOUND,json);
 
             ZXCUtils.send("Воиспроизводится: %s.ogg".formatted(soundId), Formatting.GRAY);
         }

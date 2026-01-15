@@ -13,7 +13,7 @@ import org.joml.Matrix4f;
 import ru.emrass.zxchelper.ZXCHelper;
 import ru.emrass.zxchelper.config.ConfigManager;
 import ru.emrass.zxchelper.net.WsMessageType;
-import ru.emrass.zxchelper.utils.SoundUtils;
+import ru.emrass.zxchelper.utils.sounds.SoundUtils;
 
 import java.util.List;
 
@@ -124,7 +124,7 @@ public class SoundWheelScreen extends Screen {
                     json.addProperty("x", pos.x);
                     json.addProperty("y", pos.y);
                     json.addProperty("z", pos.z);
-                    ZXCHelper.getInstance().getWebService().sendJson(WsMessageType.PLAY_SOUND, json);
+                    ZXCHelper.getInstance().getWebService().send(WsMessageType.PLAY_SOUND, json);
                 }
             } else {
                 if (this.client != null && this.client.player != null) {
