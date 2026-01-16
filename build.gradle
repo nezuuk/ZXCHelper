@@ -16,14 +16,7 @@ repositories {
     maven {
         url 'https://oss.sonatype.org/content/groups/public/'
     }
-    maven {
-        name = 'GeckoLib'
-        url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
-        content {
-            includeGroupByRegex("software\\.bernie.*")
-            includeGroup("com.eliotlash.mclib")
-        }
-    }
+    maven { url 'https://maven.wispforest.io/releases/' }
 }
 configurations.all {
     resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
@@ -43,6 +36,9 @@ dependencies {
     modApi("me.shedaniel.cloth:cloth-config-fabric:11.1.118")
     modImplementation "info.journeymap:journeymap-api:${journeymap_api_version}"
     modApi("com.terraformersmc:modmenu:7.2.2")
+    modImplementation fileTree(dir: "libs", include: "*.jar")
+
+    include fileTree(dir: "libs", include: "*.jar")
 }
 
 

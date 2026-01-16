@@ -1,4 +1,4 @@
-package ru.emrass.zxchelper.config.modmenu;
+package modmenu;
 
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;

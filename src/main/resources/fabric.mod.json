@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "zxchelper",
-  "version": "1.0.0",
+  "version": "1.0.7",
   "name": "ZXCHelper",
   "description": "ZXCHelper client mod",
   "authors": ["emrass"],
@@ -12,7 +12,7 @@
       "ru.emrass.zxchelper.ZXCHelper"
     ],
     "modmenu": [
-      "ru.emrass.zxchelper.config.modmenu.ModMenuIntegration"
+      "ru.emrass.zxchelper.config.ModMenuIntegration"
     ],
     "journeymap": [
       "ru.emrass.zxchelper.journeymap.MapIntegration"

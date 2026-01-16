@@ -3,6 +3,7 @@ package ru.emrass.zxchelper.features.impl;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.ProjectileUtil;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Box;
@@ -32,7 +33,7 @@ public class PingFeature extends BaseFeature {
 
         pingManager.addPing(target.pos.x, target.pos.y, target.pos.z, target.isEnemy,target.entityId);
 
-        client.player.playSound(net.minecraft.sound.SoundEvents.BLOCK_NOTE_BLOCK_BELL.value(), 1.0f, 1.5f);
+        client.player.playSound(SoundEvents.BLOCK_NOTE_BLOCK_BELL.value(), 1.0f, 1.5f);
 
 
     }

@@ -4,6 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.util.InputUtil;
 import org.slf4j.Logger;
 import ru.emrass.zxchelper.commands.CommandRegistry;
 import ru.emrass.zxchelper.commands.impl.*;
@@ -55,6 +58,11 @@ public class ZXCHelper implements ClientModInitializer {
     @Getter
     @Setter
     private Role playerRole = Role.USER;
+
+
+    private boolean wasOPressed = false;
+
+
     @Override
     public void onInitializeClient() {
         logger.info("init: {}", MOD_NAME);
@@ -77,6 +85,7 @@ public class ZXCHelper implements ClientModInitializer {
         AudioConverter.process();
         SoundUtils.refreshSoundList();
         SkinManager.init();
+
     }
 
 
